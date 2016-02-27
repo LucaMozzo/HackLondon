@@ -6,12 +6,19 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function(){
+            //when loaded
+            $('.container').hide();
+
             $('#everyone').click(function(){
                 $('#flatmates').children().prop("checked",true);
             });
 
             $('#noone').click(function(){
                 $('#flatmates').children().prop("checked",false);
+            });
+
+            $('#showform').click(function(){
+                $('.container').fadeIn();
             });
         });
     </script>
@@ -23,8 +30,17 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<h1>Add a task</h1>
+<h1>Tasks</h1>
+<a id="showform" href="#">Add a new task</a>
+
+
+
+
+
+
+
 <div class="container">
+    <h1>Add a task</h1>
     <div class="row">
         <div class='col-sm-6'>
             <form name="addTask" action="/adduser" method="POST">
