@@ -52,6 +52,10 @@ def addTask():
     db['tasks'].insert(task)
     return "Inserted "+str(task['id'])
 
+@app.route("/adduser", methods = ['POST'])
+def adduser():
+    return str(request.form)
+
 @app.route("/addTestTask", methods = ['GET'])
 def addTestTask():
     task = create_new_task("testname", "testdate")
