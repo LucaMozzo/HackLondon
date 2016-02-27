@@ -52,11 +52,11 @@ def addTask():
     db['tasks'].insert(task)
     return "Inserted "+str(task['id'])
 
-@app.route("/adduser", methods = ['POST'])
+@app.route("/addTask", methods = ['POST'])
 def adduser():
     return str(request.form)
 
-@app.route("/addTestTask", methods = ['GET'])
+@app.route("/deprecatedfornow", methods = ['GET'])
 def addTestTask():
     task = create_new_task("testname", "testdate")
     db['tasks'].insert(task)
