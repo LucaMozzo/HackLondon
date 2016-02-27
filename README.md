@@ -3,7 +3,7 @@ A HackLondon 2016 project
 
 ### Running
 
-- Get Python 3
+- Get Python 3 and Pip
 - `pip3 install -r requirements.txt`
 - `python3 app.py`
 
