@@ -1,24 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
 
-    <script type="text/javascript" src="https://raw.githubusercontent.com/jashkenas/underscore/master/underscore.js"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Serhioromano/bootstrap-calendar/master/js/calendar.js"></script>
-    <script type="text/javascript">
-        var calendar = $("#calendar").calendar(
-                {
-                    tmpl_path: "/tmpls/",
-                    events_source: function () { return []; }
-                });
+    <script src="moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
+    <script>
+        $(document).ready(function(){
+            //when loaded
+            $('.container').hide();
+            fetchUsers();
+
+            //events
+            $('#everyone').click(function(){
+                $('#flatmates').children().prop("checked",true);
+            });
+
+            $('#noone').click(function(){
+                $('#flatmates').children().prop("checked",false);
+            });
+
+            $('#showform').click(function(){
+                $('.container').fadeIn();
+            });
+        });
+
+        function fetchUsers(){
+            $.get("/getAllUsers", function(data, status){
+                console.log("Data: ", data);
+                console.log(status);
+                console.log(data.users[0].name);
+            });
+        }
     </script>
+
+    <script type="text/javascript" src="https://raw.githubusercontent.com/moment/moment/develop/moment.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" />
+
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
-<div id="calendar"></div>
+<h1>Tasks</h1>
+<a id="showform" href="#">Add a new task</a>
 
+
+
+
+
+
+
+<div class="container">
+    <h1>Add a task</h1>
+    <div class="row">
+        <div class='col-sm-6'>
+            <form name="addTask" action="/adduser" method="POST">
+                <div class="form-group">
+                    <h5>Due date and time:</h5>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="date" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h5>Who should perform the task:</h5>
+                    <div class="input-group" id="flatmates">
+                        <input type="checkbox"> Luca <br/>
+                        <input type="checkbox"> Hannah <br/>
+                        <input type="checkbox"> Michal <br/>
+                        <input type="checkbox"> Jake <br/>
+                        <a id="everyone" href="#">Everyone</a>
+                        <a id="noone" href="#">Uncheck all</a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="se" placeholder="Name of the task" autocomplete="off" type="text" name="taskname">
+                    <span class="input-group-btn">
+                        <input class="btn btn-primary" value="Add" id="btn" type="submit">
+                    </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
+</div>
 </body>
 </html>
