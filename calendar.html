@@ -25,11 +25,15 @@
         });
 
         function fetchUsers(){
-            var xhr = new XMLHttpRequest();
+            $.get("/getAllUsers", function(data, status){
+                console.log("Data: " + data + "\nStatus: " + status);
+            });
+            /*var xhr = new XMLHttpRequest();
             xhr.open("GET", "/getAllUsers", false);
             xhr.send();
-            var json = JSON.parse(xhr);
-            console.log(json);
+            console.log(xhr.body.toString());
+            var json = JSON.parse(xhr.body);
+            console.log(json);*/
         }
     </script>
 
@@ -88,7 +92,7 @@
         </div>
         <script type="text/javascript">
             $(function () {
-                $('#datetimepicker1').datetimepicker();
+                //$('#datetimepicker1').datetimepicker();
             });
         </script>
     </div>
