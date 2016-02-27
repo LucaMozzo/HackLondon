@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
 
-    <script type="text/javascript" src="https://raw.githubusercontent.com/jashkenas/underscore/master/underscore.js"></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Serhioromano/bootstrap-calendar/master/js/calendar.js"></script>
-    <script type="text/javascript">
-        var calendar = $("#calendar").calendar(
-                {
-                    tmpl_path: "/tmpls/",
-                    events_source: function () { return []; }
-                });
-    </script>
+
+    <script type="text/javascript" src="https://raw.githubusercontent.com/moment/moment/develop/moment.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css" />
+
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
-<div id="calendar"></div>
+<h2>Add a task</h2>
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <h5>Due date and time:</h5>
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input class="form-control" id="se" placeholder="Name of the task" autocomplete="off" type="text">
+				<span class="input-group-btn">
+					<input class="btn btn-primary" value="Add" id="btn" type="submit">
+				</span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+    </div>
+</div>
 
+dwecwc
 </body>
 </html>
