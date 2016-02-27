@@ -54,6 +54,7 @@ def addTask():
 
 @app.route("/addTask", methods = ['POST'])
 def adduser():
+    print(str(request.form))
     return str(request.form)
 
 @app.route("/deprecatedfornow", methods = ['GET'])
