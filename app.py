@@ -45,7 +45,7 @@ def getAllUsers():
     all_list = [strip_mongoid(x) for x in all]
     return flask.jsonify(users=all_list)
 
-@app.route("/addTask", methods = ['POST'])
+@app.route("/deprecatedfornow2", methods = ['POST'])
 def addTask():
     task = create_new_task(request.form['taskname'],
                            request.form['date'])
