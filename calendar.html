@@ -8,7 +8,9 @@
         $(document).ready(function(){
             //when loaded
             $('.container').hide();
+            fetchUsers();
 
+            //events
             $('#everyone').click(function(){
                 $('#flatmates').children().prop("checked",true);
             });
@@ -21,6 +23,14 @@
                 $('.container').fadeIn();
             });
         });
+
+        function fetchUsers(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/getAllUsers", false);
+            xhr.send();
+            var json = JSON.parse(xhr);
+            console.log(json);
+        }
     </script>
 
     <script type="text/javascript" src="https://raw.githubusercontent.com/moment/moment/develop/moment.js"></script>
