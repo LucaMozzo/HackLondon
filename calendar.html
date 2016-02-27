@@ -4,7 +4,11 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="calendar.js"></script>
+    <script>
+        $(document).ready(function(){
+
+        });
+    </script>
 
     <script type="text/javascript" src="https://raw.githubusercontent.com/moment/moment/develop/moment.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
@@ -17,37 +21,39 @@
 <div class="container">
     <div class="row">
         <div class='col-sm-6'>
-            <div class="form-group">
-                <h5>Due date and time:</h5>
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <input id="flatmate" class="form-control" placeholder="Name of the flatmate in charge" autocomplete="off" type="text" readonly>
-                    <div class="input-group-btn">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Assign to flatmate <span class="caret"></span></button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#">User1</a></li>
-                            <li><a href="#">User2</a></li>
-                        </ul>
+            <form name="addTask" action="/adduser" method="POST">
+                <div class="form-group">
+                    <h5>Due date and time:</h5>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="date" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <input class="form-control" id="se" placeholder="Name of the task" autocomplete="off" type="text">
-				<span class="input-group-btn">
-					<input class="btn btn-primary" value="Add" id="btn" type="submit">
-				</span>
+                <div class="form-group">
+                   <!-- <div class="input-group">
+                        <input id="flatmate" class="form-control" placeholder="Name of the flatmate in charge" autocomplete="off" type="text" readonly>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Assign to flatmate <span class="caret"></span></button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="#">User1</a></li>
+                                <li><a href="#">User2</a></li>
+                            </ul>
+                        </div>
+                    </div>-->
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" id="se" placeholder="Name of the task" autocomplete="off" type="text" name="taskname">
+                    <span class="input-group-btn">
+                        <input class="btn btn-primary" value="Add" id="btn" type="submit">
+                    </span>
+                    </div>
+                </div>
+            </form>
         </div>
         <script type="text/javascript">
             $(function () {
