@@ -25,18 +25,43 @@
                 $('#flatmates').children().prop("checked",false);
             });
 
+            //show/hide form
             $('#showform').click(function(){
                 $('.container').fadeIn();
+                $('#showform').fadeOut();
+            });
+
+            $('#hideform').click(function(){
+                $('.container').fadeOut();
+                $('#showform').fadeIn();
+            });
+
+            $('#addtaskbtn').click(function (){
+                //we get the users that have been checked
+                var data = {a: "dog"};
+                $.ajax({
+                    type: "POST",
+                    url: '/addTask',
+                    data: data,
+                    success: function (response) {
+
+                        console.log(response);
+                    }
+                });
             });
         });
 
-        function fetchUsers(){
-            $.get("/getAllUsers", function(data, status){
-                console.log("Data: ", data);
-                console.log(status);
-                console.log(data.users[0].name);
+        function fetchUsers() {
+            $.get("/getAllUsers", function (data, status) {
+
+                //for each user I add a checkbox
+                for (i = 0; i < data.users.length; i++) {
+                    $('#flatmates').append('<input type="checkbox">' + data.users[i].name + '<br/>');
+                }
             });
         }
+
+
     </script>
 
 </head>
@@ -54,44 +79,39 @@
     <h1>Add a task</h1>
     <div class="row">
         <div class='col-sm-6'>
-            <form name="addTask" action="/adduser" method="POST">
-                <div class="form-group">
-                    <h5>Due date and time:</h5>
-                    <div class='input-group date' id='datetimepicker1'>
-                        <input type='text' class="form-control" name="date" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+            <div class="jumbotron">
+                <form name="addTask">
+                    <div class="form-group">
+                        <h5>Due date and time:</h5>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="date" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <h5>Who should perform the task:</h5>
-                    <div class="input-group" id="flatmates">
-                        <input type="checkbox"> Luca <br/>
-                        <input type="checkbox"> Hannah <br/>
-                        <input type="checkbox"> Michal <br/>
-                        <input type="checkbox"> Jake <br/>
+                    <div class="form-group">
+                        <h5>Who should perform the task:</h5>
+                        <div class="input-group" id="flatmates">
+                        <!-- checkboxes loaded from server -->
+                        </div>
                         <a id="everyone" href="#">Everyone</a>
                         <a id="noone" href="#">Uncheck all</a>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="input-group">
-                        <input class="form-control" id="se" placeholder="Name of the task" autocomplete="off" type="text" name="taskname">
-                    <span class="input-group-btn">
-                        <input class="btn btn-primary" value="Add" id="btn" type="submit">
-                    </span>
+                    <div class="form-group">
+                            <input class="form-control" id="se" placeholder="Name of the task" autocomplete="off" type="text" name="taskname">
+
+                        </div>
+                    <div class="form-group">
+                        <input class="btn btn-success" value="Add" id="addtaskbtn" type="submit">
                     </div>
-                </div>
-            </form>
-        </div>
-        <script type="text/javascript">
-            $(function () {
 
-            });
-        </script>
+                    <a href="#" id="hideform">Done</a>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>
