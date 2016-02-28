@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, send_from_directory, request
+from flask import Flask, send_from_directory, request, render_template
 from pymongo import MongoClient, ReturnDocument
 from pusher import Pusher
 
@@ -39,6 +39,14 @@ def create_new_task(task_name, date, persons):
 @app.route("/")
 def hello():
     return send_from_directory("","index.html")
+
+@app.route("/login/<user>")
+def login(user):
+    return render_template('login.html', user=user)
+
+@app.route("/logout")
+def logout():
+    return send_from_directory("", 'logout.html')
 
 @app.route("/<filename>")
 def serve_file(filename):
