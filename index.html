@@ -22,7 +22,7 @@
                 Notification.requestPermission();
         });
 
-        function notifyMe() {
+        function notifyMe(data) {
             if (!Notification) {
                 alert('Desktop notifications not available in your browser. Try Chromium.');
                 return;
@@ -32,7 +32,7 @@
             else {
                 var notification = new Notification('Reminder from Maison', {
                     icon: 'favicon.ico',
-                    body: "Hey there! You have an overdue task!"
+                    body: "Hey there! You have an overdue task: " + data.taskName
                 });
                 notification.onclick = function () {
                     window.open("http://stackoverflow.com/a/13328397/1269037");
@@ -55,7 +55,7 @@
         });
         var channel = pusher.subscribe('reminder_channel');
         channel.bind(getCookie('user'), function(data) {
-            notifyMe();
+            notifyMe(data);
         });
 
         function getCookie(name) {
