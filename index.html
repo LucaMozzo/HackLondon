@@ -15,6 +15,34 @@
 
 
     <script>
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+
+        function notifyMe() {
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chromium.');
+                return;
+            }
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                var notification = new Notification('Notification title', {
+                    icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+                    body: "Hey there! You've been notified!",
+                });
+                notification.onclick = function () {
+                    window.open("http://stackoverflow.com/a/13328397/1269037");
+                };
+            }
+        }
+
+
+
+        1//------------------------------------------------------------------pusher-----------------------------------------
         // Enable pusher logging - don't include this in production
         Pusher.log = function(message) {
             if (window.console && window.console.log) {
@@ -26,9 +54,16 @@
             encrypted: true
         });
         var channel = pusher.subscribe('reminder_channel');
-        channel.bind('alice', function(data) {
-            alert(data.taskName);
+        channel.bind(getCookie('user'), function(data) {
+            notifyMe();
         });
+
+        function getCookie(name) {
+            alert("Cookie");
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
     </script>
 
 

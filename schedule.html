@@ -18,7 +18,7 @@
             $('.container').hide();
             $('#succededAlert').hide();
             $('#errorAlert').hide();
-            $('#datetimepicker1').datetimepicker($.datepicker.regional['de']);
+            $('#datetimepicker1').datetimepicker();
 
             fetchUsers();
             fetchTasks();
@@ -41,6 +41,10 @@
             $('#hideform').click(function(){
                 $('.container').hide();
                 $('#showform').show();
+            });
+
+            $('.remind').click(function(){
+
             });
 
             $('#addtaskbtn').click(function (){
@@ -81,6 +85,11 @@
             });
         });
 
+        function remind(name){
+            $.get("/sendTaskReminders/" + name, function (data, status) {
+                console.log(status);
+            });
+        }
 
         function fetchUsers() {
             $.get("/getAllUsers", function (data, status) {
@@ -107,17 +116,25 @@
                     console.log(data.tasks[i]);
                 }*/
 
-                //sort the array by dates
+                /*sort the array by dates
                 data.tasks.sort(function(a,b){
                     // Turn your strings into dates, and then subtract them
                     // to get a value that is either negative, positive, or zero.
                     return !(new Date(b.date) - new Date(a.date));
-                });
+                });*/
 
 
-                //console.log(data.tasks);
                 for(i = 0; i < data.tasks.length; ++i) {
-                    //$('.tasklist').append()
+                    if(data.tasks[i].persons == null || data.tasks[i].persons.length == 0){
+                        $('.tasklist').append('<li>' + data.tasks[i].date + " - " + data.tasks[i].name + '</li>');
+                        continue;
+                    }
+                    var users = data.tasks[i].persons[0];
+
+                    for(j = 1; j < data.tasks[i].persons.length; j++){
+                        users += ", " + data.tasks[i].persons[j];
+                    }
+                    $('.tasklist').append('<li>' + data.tasks[i].date + " - " + data.tasks[i].name + ' (' + users + ')<a onclick="remind(\'' +data.tasks[i].name +'\')" href="#">Remind</a></li>');
                 }
             });
         }
