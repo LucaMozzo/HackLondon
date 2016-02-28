@@ -100,6 +100,18 @@
             });
         }
 
+        function deleteTask(name){
+
+            $.ajax({
+                type: "POST",
+                url: '/removeTask',
+                data: {taskName : name},
+                success: function (response) {
+                    $('#'+name).remove();
+                }
+            });
+        }
+
         function fetchTasks(){
             $.get("/getAllTasks", function(data, status){
 
@@ -131,7 +143,7 @@
                     for(j = 1; j < data.tasks[i].persons.length; j++){
                         users += ", " + data.tasks[i].persons[j];
                     }
-                    $('.tasklist').append('<li class="taskelement" href="#">' + data.tasks[i].date + " - " + data.tasks[i].name + ' (' + users + ')<button onclick="remind(\'' +data.tasks[i].name +'\')" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></button></li>');
+                    $('.tasklist').append('<li class="taskelement" id="'+data.tasks[i].name+'" href="#">' + data.tasks[i].date + " - " + data.tasks[i].name + ' (' + users + ')<button onclick="remind(\'' +data.tasks[i].name +'\')" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></button><button onclick="deleteTask(\'' +data.tasks[i].name +'\')" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button></li>');
                 }
             });
         }
