@@ -21,11 +21,9 @@ def create_new_id(id_name):
                                                   upsert=True)
     return counter_doc['seq']
 
-def create_new_task(task_name, date):
-    name = task_name
-    date = date
+def create_new_task(task_name, date, persons):
     id = create_new_id('taskId')
-    return {"id": id, "name": name, "date": date}
+    return {"id": id, "name": task_name, "date": date, "persons": persons}
 
 @app.route("/")
 def hello():
@@ -58,7 +56,7 @@ def adduser():
 
 @app.route("/deprecatedfornow", methods = ['GET'])
 def addTestTask():
-    task = create_new_task("testname", "testdate")
+    task = create_new_task("testname", "testdate", ['someone'])
     db['tasks'].insert(task)
     return "Inserted "+str(task['id'])
 
