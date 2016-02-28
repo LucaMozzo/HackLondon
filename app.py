@@ -16,6 +16,9 @@ pusher = Pusher(
   port=443
 )
 
+def log(msg):
+    print(msg)
+    return msg
 
 def set_db(new_db):
     global db
@@ -78,6 +81,17 @@ def addTask():
     logmsg = "Inserted "+str(task['id'])
     print(logmsg)
     return logmsg
+
+@app.route("/removeTask", methods = ['POST'])
+def removeTask():
+    print("Received POST: "+str(request.form))
+    if 'taskName' not in request.form:
+        return log("POST did not contain taskName")
+    taskName = request.form['taskName']
+    result = db['tasks'].delete_one({'name':taskName})
+    if result.deleted_count == 0:
+        return log("Did not find specified taskName: "+ taskName)
+    return log("Deleted task: " + taskName)
 
 @app.route("/testPusher")
 def testPusher():
