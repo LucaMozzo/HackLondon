@@ -54,7 +54,7 @@ def addTask():
     print("Received POST: "+str(request.form))
     task = create_new_task(request.form['taskName'],
                            request.form['date'],
-                           request.form.getlist('users'))
+                           request.form.getlist('users[]'))
     db['tasks'].insert(task)
     logmsg = "Inserted "+str(task['id'])
     print(logmsg)
