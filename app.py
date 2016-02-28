@@ -43,6 +43,12 @@ def getAllUsers():
     all_list = [strip_mongoid(x) for x in all]
     return flask.jsonify(users=all_list)
 
+@app.route("/getAllTasks")
+def getAllTasks():
+    all = db['tasks'].find()
+    all_list = [strip_mongoid(x) for x in all]
+    return flask.jsonify(tasks=all_list)
+
 @app.route("/addTask", methods = ['POST'])
 def addTask():
     print("Received POST: "+str(request.form))
