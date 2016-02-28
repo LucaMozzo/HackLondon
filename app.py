@@ -1,10 +1,21 @@
 import flask
 from flask import Flask, send_from_directory, request
 from pymongo import MongoClient, ReturnDocument
+from pusher import Pusher
+
+REMINDER_CHANNEL = 'reminder_channel'
 
 app = Flask(__name__)
 app.debug = True
 db = MongoClient("52.17.26.163")['test']
+pusher = Pusher(
+  app_id='183632',
+  key='fdbd6c7bb85a1f20e56d',
+  secret='467d650bec35aeb85fc7',
+  ssl=True,
+  port=443
+)
+
 
 def set_db(new_db):
     global db
@@ -59,6 +70,19 @@ def addTask():
     logmsg = "Inserted "+str(task['id'])
     print(logmsg)
     return logmsg
+
+@app.route("/testPusher")
+def testPusher():
+    pusher.trigger('reminder_channel', 'alice', {'message': 'hello world'})
+    return "Sent successfully"
+
+@app.route("/sendTaskReminders/<taskName>")
+def sendTaskReminders(taskName):
+    task = db['tasks'].find_one({"name": taskName})
+    persons = task['persons']
+    for p in persons:
+        pusher.trigger(REMINDER_CHANNEL, p, {'taskName': taskName })
+    return "Sent reminders to " + ", ".join(persons)
 
 @app.route("/addTestTask", methods = ['GET'])
 def addTestTask():
