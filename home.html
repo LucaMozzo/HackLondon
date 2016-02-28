@@ -22,10 +22,7 @@
 <script>
     $(document).ready(function() {
         $('#btn-login').click(function () {
-
-            $.get("/login/" + $('#email').val(), function (data, status) {
-                console.log("/login/" + $('#email').val());
-            });
+            window.location.replace('/login/'+$('#email').val());
         });
     });
 </script>
