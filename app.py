@@ -1,10 +1,21 @@
 import flask
 from flask import Flask, send_from_directory, request
 from pymongo import MongoClient, ReturnDocument
+from pusher import Pusher
+
+REMINDER_CHANNEL = 'reminder_channel'
 
 app = Flask(__name__)
 app.debug = True
 db = MongoClient("52.17.26.163")['test']
+pusher = Pusher(
+  app_id='183632',
+  key='fdbd6c7bb85a1f20e56d',
+  secret='467d650bec35aeb85fc7',
+  ssl=True,
+  port=443
+)
+
 
 def set_db(new_db):
     global db
@@ -21,11 +32,9 @@ def create_new_id(id_name):
                                                   upsert=True)
     return counter_doc['seq']
 
-def create_new_task(task_name, date):
-    name = task_name
-    date = date
+def create_new_task(task_name, date, persons):
     id = create_new_id('taskId')
-    return {"id": id, "name": name, "date": date}
+    return {"id": id, "name": task_name, "date": date, "persons": persons}
 
 @app.route("/")
 def hello():
@@ -45,21 +54,39 @@ def getAllUsers():
     all_list = [strip_mongoid(x) for x in all]
     return flask.jsonify(users=all_list)
 
-@app.route("/deprecatedfornow2", methods = ['POST'])
-def addTask():
-    task = create_new_task(request.form['taskname'],
-                           request.form['date'])
-    db['tasks'].insert(task)
-    return "Inserted "+str(task['id'])
+@app.route("/getAllTasks")
+def getAllTasks():
+    all = db['tasks'].find()
+    all_list = [strip_mongoid(x) for x in all]
+    return flask.jsonify(tasks=all_list)
 
 @app.route("/addTask", methods = ['POST'])
-def adduser():
-    print(str(request.form))
-    return str(request.form)
+def addTask():
+    print("Received POST: "+str(request.form))
+    task = create_new_task(request.form['taskName'],
+                           request.form['date'],
+                           request.form.getlist('users[]'))
+    db['tasks'].insert(task)
+    logmsg = "Inserted "+str(task['id'])
+    print(logmsg)
+    return logmsg
 
-@app.route("/deprecatedfornow", methods = ['GET'])
+@app.route("/testPusher")
+def testPusher():
+    pusher.trigger('reminder_channel', 'alice', {'message': 'hello world'})
+    return "Sent successfully"
+
+@app.route("/sendTaskReminders/<taskName>")
+def sendTaskReminders(taskName):
+    task = db['tasks'].find_one({"name": taskName})
+    persons = task['persons']
+    for p in persons:
+        pusher.trigger(REMINDER_CHANNEL, p, {'taskName': taskName })
+    return "Sent reminders to " + ", ".join(persons)
+
+@app.route("/addTestTask", methods = ['GET'])
 def addTestTask():
-    task = create_new_task("testname", "testdate")
+    task = create_new_task("testname", "testdate", ['someone'])
     db['tasks'].insert(task)
     return "Inserted "+str(task['id'])
 
