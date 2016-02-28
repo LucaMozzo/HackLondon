@@ -43,19 +43,18 @@ def getAllUsers():
     all_list = [strip_mongoid(x) for x in all]
     return flask.jsonify(users=all_list)
 
-@app.route("/deprecatedfornow2", methods = ['POST'])
-def addTask():
-    task = create_new_task(request.form['taskname'],
-                           request.form['date'])
-    db['tasks'].insert(task)
-    return "Inserted "+str(task['id'])
-
 @app.route("/addTask", methods = ['POST'])
-def adduser():
-    print(str(request.form))
-    return str(request.form)
+def addTask():
+    print("Received POST: "+str(request.form))
+    task = create_new_task(request.form['taskName'],
+                           request.form['date'],
+                           request.form.getlist('users'))
+    db['tasks'].insert(task)
+    logmsg = "Inserted "+str(task['id'])
+    print(logmsg)
+    return logmsg
 
-@app.route("/deprecatedfornow", methods = ['GET'])
+@app.route("/addTestTask", methods = ['GET'])
 def addTestTask():
     task = create_new_task("testname", "testdate", ['someone'])
     db['tasks'].insert(task)
