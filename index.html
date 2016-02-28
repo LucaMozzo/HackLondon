@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -10,9 +11,65 @@
     <script src="moment.js"></script>
     <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
+
+    <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+
+
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+
+        function notifyMe() {
+            if (!Notification) {
+                alert('Desktop notifications not available in your browser. Try Chromium.');
+                return;
+            }
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+            else {
+                var notification = new Notification('Reminder from Maison', {
+                    icon: 'favicon.ico',
+                    body: "Hey there! You have an overdue task!",
+                });
+                notification.onclick = function () {
+                    window.open("http://stackoverflow.com/a/13328397/1269037");
+                };
+            }
+        }
+
+
+
+        1//------------------------------------------------------------------pusher-----------------------------------------
+        // Enable pusher logging - don't include this in production
+        Pusher.log = function(message) {
+            if (window.console && window.console.log) {
+                window.console.log(message);
+            }
+        };
+
+        var pusher = new Pusher('fdbd6c7bb85a1f20e56d', {
+            encrypted: true
+        });
+        var channel = pusher.subscribe('reminder_channel');
+        channel.bind(getCookie('user'), function(data) {
+            notifyMe();
+        });
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+    </script>
+
+
     <script>
         $(document).ready(function(){
-            $('.body-container').load('calendar.html');
+            $('.body-container').load('home.html');
             //navbar
             $('.nav li').click(function(){
                 $(this).addClass('active').siblings().removeClass('active');
@@ -23,7 +80,7 @@
         });
     </script>
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default" style="z-index: 5;">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
@@ -36,16 +93,16 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav nav-pills">
-                    <li ><a data-href="home.html" href="#">Home</a></li>
-                    <li class="active"><a data-href="calendar.html" href="#">Schedule</a></li>
+                    <li class="active"><a data-href="home.html" href="#">Home</a></li>
+                    <li ><a data-href="schedule.html" href="#">Schedule</a></li>
+                    <li ><a data-href="calendar.html" href="#">Calendar</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </head>
 <body>
-<div class = "col-sm-8 center col-md-8 col-md-offset-2">
+
     <div class="body-container"/>
-</div>
 </body>
 </html>
