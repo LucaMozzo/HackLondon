@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="calendar.css">
-
+<script src="http://arshaw.com/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js"/>
     <script>
+        addEvent();addEvent();
+        function addEvent(){
+            var date = new Date();
+            var d = date.getDate();
+            var m = date.getMonth();
+            var y = date.getFullYear();
+            $('#calendar').fullCalendar(events.push({
+                title: 'Arrrrrrl Day Event',
+                start: new Date(y, m, 1)
+            }));
+        }
         //-------------------------------------------------CALENDAR-------------------------------------------------------------------
 
-        $.getScript('http://arshaw.com/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js',function(){
+       /* $.getScript('http://arshaw.com/js/fullcalendar-1.6.4/fullcalendar/fullcalendar.min.js',function(){
 
             var date = new Date();
             var d = date.getDate();
@@ -68,7 +79,7 @@
                     }
                 ]
             });
-        })
+        })*/
     </script>
 </head>
 <body>
