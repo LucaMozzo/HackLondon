@@ -68,16 +68,31 @@
             if(typeof getCookie("user") !== "undefined"){
                 $('.body-container').load('schedule.html');
                 $('#menu li').first().hide();
+                $('#lischedule').show();
+                $('#licalendar').show();
+                $('#lilogout').show();
+                $('#usernamedisplay').text("Logged in as " + getCookie("user"));
+                $('#alert').fadeIn();
+                setTimeout(function() {
+                    $('#aalert').fadeOut();
+                }, 2500);
             }
             else{
                 $('.body-container').load('home.html');
                 $('#menu li').first().show();
+                $('#lischedule').hide();
+                $('#licalendar').hide();
+                $('#lilogout').hide();
             }
             //navbar
+            $('#lilogout').click(function(){
+                window.location.replace("/logout");
+            });
             $('.nav li').click(function(){
                 $(this).addClass('active').siblings().removeClass('active');
                 var url = $(this).children().attr('data-href');
-                $('.body-container').load(url);
+                if(url !== "#")
+                    $('.body-container').load(url);
             });
 
         });
@@ -98,8 +113,9 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right" id="menu">
                     <li class="active" href="#"><a data-href="home.html">Home <span class="sr-only">(current)</span></a></li>
-                    <li ><a data-href="schedule.html" href="#">Schedule</a></li>
-                    <li ><a data-href="calendar.html" href="#">Calendar</a></li>
+                    <li ><a data-href="schedule.html" href="#" id="lischedule">Schedule</a></li>
+                    <li ><a data-href="calendar.html" href="#" id="licalendar">Calendar</a></li>
+                    <li ><a data-href="#" href="#" id="lilogout">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -107,7 +123,7 @@
 
 </head>
 <body>
-
+<div style="display: block;" class="alert alert-success" id="aalert"><p id="usernamedisplay"></p></div>
     <div class="body-container"/>
 </body>
 </html>
