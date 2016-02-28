@@ -11,7 +11,6 @@
     <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
 
-
     <script>
 
         $(document).ready(function(){
@@ -123,7 +122,6 @@
                     return !(new Date(b.date) - new Date(a.date));
                 });*/
 
-
                 for(i = 0; i < data.tasks.length; ++i) {
                     if(data.tasks[i].persons == null || data.tasks[i].persons.length == 0){
                         $('.tasklist').append('<li>' + data.tasks[i].date + " - " + data.tasks[i].name + '</li>');
@@ -134,7 +132,7 @@
                     for(j = 1; j < data.tasks[i].persons.length; j++){
                         users += ", " + data.tasks[i].persons[j];
                     }
-                    $('.tasklist').append('<li>' + data.tasks[i].date + " - " + data.tasks[i].name + ' (' + users + ')<a onclick="remind(\'' +data.tasks[i].name +'\')" href="#">Remind</a></li>');
+                    $('.tasklist').append('<li class="taskelement" href="#">' + data.tasks[i].date + " - " + data.tasks[i].name + ' (' + users + ')<button onclick="remind(\'' +data.tasks[i].name +'\')" type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></button></li>');
                 }
             });
         }

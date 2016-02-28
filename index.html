@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -30,9 +31,9 @@
             if (Notification.permission !== "granted")
                 Notification.requestPermission();
             else {
-                var notification = new Notification('Notification title', {
-                    icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-                    body: "Hey there! You've been notified!",
+                var notification = new Notification('Reminder from Maison', {
+                    icon: 'favicon.ico',
+                    body: "Hey there! You have an overdue task!",
                 });
                 notification.onclick = function () {
                     window.open("http://stackoverflow.com/a/13328397/1269037");
@@ -59,7 +60,6 @@
         });
 
         function getCookie(name) {
-            alert("Cookie");
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
             if (parts.length == 2) return parts.pop().split(";").shift();
